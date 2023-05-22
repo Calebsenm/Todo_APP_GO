@@ -5,12 +5,12 @@ This is a to do app  with Go
 # Use docker for the database
 1.Run the docker compose 
 ```shell
-    docker-compose up -d 
+docker-compose up -d 
 ```
 2.Connect to the docker container
 
 ```shell
-    docker exec -it dbTodo bash 
+docker exec -it dbTodo bash 
 ```
 
 3.Connect to Postgresql in the terminal 
@@ -29,12 +29,13 @@ CREATE TABLE tasks(
  text    VARCHAR(255) NOT NULL,
  date   DATE
 );
+
 ```
 
 2. insert data example to the data 
 ```shell 
-    INSERT INTO tasks (tittle, text, date)
-    VALUES ('homework','This is easy homework', '2023-05-22');
+INSERT INTO tasks (tittle, text, date)
+VALUES ('homework','This is easy homework', '2023-05-22');
 ```
 3. OK now you can run 
 
@@ -43,9 +44,11 @@ go run .
 ```
 Or compile the app
 ```shell
- go build .
+go build .
 ```
 now run 
 ```shell 
 ./todoApp 
 ```
+
+
