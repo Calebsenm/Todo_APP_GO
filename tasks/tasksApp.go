@@ -124,7 +124,15 @@ func PostTask(c *gin.Context) {
 
 func UpdateTask(c *gin.Context) {
 
+    var task1 Task;
+    data , err := db.Connet();
+
+
 }
 func DeleteTask(c *gin.Context) {
 
 }
+
+
+
+
