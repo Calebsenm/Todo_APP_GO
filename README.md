@@ -27,7 +27,7 @@ CREATE TABLE tasks(
  id SERIAL PRIMARY KEY ,
  tittle  VARCHAR(50) NOT NULL UNIQUE,
  text    VARCHAR(255) NOT NULL,
- date   DATE
+ date    Date
 );
 
 ```
@@ -52,3 +52,10 @@ now run
 ```
 
 
+4. this is for make a post from the terminal 
+
+```bash
+
+curl -X POST -H "Content-Type: application/json" -d '{"Id":1,"Title":"homework","Text":"the Homework","Date":"2023-05-22T00:00:00Z"}' http://localhost:8000/task
+
+```
