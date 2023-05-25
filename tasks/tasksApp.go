@@ -5,24 +5,17 @@ import (
 	"log"
 	"net/http"
 	"strconv"
-	"time"
 	"todoApp/db"
-
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
+    "time"
 )
 
-type NewTask struct {
-	Title string    `json:"title" `
-	Text  string    `json:"text" `
-	Date  time.Time `json:"date" `
-}
-
 type Task struct {
-	Id    int       `json:"id"`
-	Title string    `json:"title"`
-	Text  string    `json:"text"`
-	Date  time.Time `json:"date"`
+	Id    int       `json:"Id"`
+	Title string    `json:"Title"`
+	Text  string    `json:"Text"`
+	Date  time.Time `json:"Date"`
 }
 
 func GetTasks(c *gin.Context) {
@@ -94,10 +87,13 @@ func GetTask(c *gin.Context) {
 func PostTask(c *gin.Context) {
 
 	var task Task
+    
+    err := c.ShouldBindJSON(&task);
 
-	if err := c.ShouldBindJSON(&task); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error1": err.Error()})
+		fmt.Println(task);
+        return
 	}
 
 	dab, err := db.Connet()
@@ -107,11 +103,8 @@ func PostTask(c *gin.Context) {
 	}
 
 	insertQuery := "INSERT INTO tasks(tittle,text , date) VALUES($1, $2, $3)"
-	_, err = dab.Exec(insertQuery, task.Title, task.Text, task.Title)
+	_, err = dab.Exec(insertQuery,task.Title, task.Text, task.Date)
 
-	if err != nil {
-		fmt.Println("Error ", err)
-	} 
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -124,8 +117,8 @@ func PostTask(c *gin.Context) {
 
 func UpdateTask(c *gin.Context) {
 
-    var task1 Task;
-    data , err := db.Connet();
+    //var task1 Task;
+    //data , err := db.Connet();
 
 
 }
