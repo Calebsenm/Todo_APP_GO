@@ -117,14 +117,54 @@ func PostTask(c *gin.Context) {
 
 // To Do do the update to the database
 func UpdateTask(c *gin.Context) {
+    var task1 Task;
 
-    //var task1 Task;
-    //data , err := db.Connet();
+    err := c.ShouldBindJSON(&task1);
 
+    if err != nil{
+        fmt.Println("Error 1", err);
+    }
+    
+    fmt.Println(task1);
 
+    // the database conexion
+    data , err := db.Connet();
+    defer data.Close();
+
+    if err != nil {
+        fmt.Println("Error2",err)
+    }
+    
+    prepareStatement , err := data.Prepare("UPDATE tasks SET tittle = $1, text = $2, date = $3 WHERE id=$4");
+    if err != nil{
+        fmt.Println("Error3", err )
+    }
+    
+    prepareStatement.Exec(task1.Title, task1.Text, task1.Date, task1.Id); 
+   
+    c.JSON(http.StatusOK, task1)
 }
+
+
 func DeleteTask(c *gin.Context) {
 
+    idText := c.Param("id");
+    id , _ := strconv.Atoi(idText[1:]);
+    
+    data , err := db.Connet();
+    if err != nil {
+        fmt.Println("Error1",err);
+    }
+    defer data.Close();
+    
+    theData, err  :=  data.Exec("DELETE FROM tasks WHERE id=$1",id);
+    if err != nil {
+        fmt.Println("Error2",err);
+    }
+
+    fmt.Println(theData,"-", id);
+    c.JSON(http.StatusOK, gin.H{"message": "Task deleted"})
+    
 }
 
 

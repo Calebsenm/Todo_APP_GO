@@ -16,7 +16,8 @@ func main(){
 	router.GET("/tasks",tasks.GetTasks);
 	router.GET("/task:id",tasks.GetTask);
 	router.POST("/task",tasks.PostTask);
-	router.PUT("/task/:id",tasks.UpdateTask);
+	
+    router.PUT("/task/:id",tasks.UpdateTask);
 	router.DELETE("/task/:id",tasks.DeleteTask);
 
 	router.Run("localhost:8000");
