@@ -84,10 +84,11 @@ func GetTask(c *gin.Context) {
 
 }
 
-func PostTask(c *gin.Context) {
+// Correct 
+// function make the post data
 
+func PostTask(c *gin.Context) {
 	var task Task
-    
     err := c.ShouldBindJSON(&task);
 
 	if err != nil {
@@ -114,7 +115,7 @@ func PostTask(c *gin.Context) {
 
 }
 
-
+// To Do do the update to the database
 func UpdateTask(c *gin.Context) {
 
     //var task1 Task;
