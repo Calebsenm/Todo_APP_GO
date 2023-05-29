@@ -3,13 +3,22 @@
 <html>
     <head>
         <title> To Do App </title>
+        <script src="index.js"></script>
+
+
     </head>
 
     <body>
         <main>
             <h1>Welcome to Do App</h1>
+            
+            <form onsubmit="buttonClick(event)" id="Formularios"  method="POST"   >
+                <input type="text" id="Title" name="Title">
+                <input type="text" id="Text" name="Text">
+                <input type="date" id="Nombre" name="Nombre">
+                <input type="submit" name="Guardar" id="button" value="Guardar">
+            </form>
         </main>
-
     </body>
 </html>
 

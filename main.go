@@ -8,7 +8,7 @@ import(
 func main(){
 	
 	router := gin.Default();
-    
+    router.Static("fronted",".fronted")
     router.GET("/",func (c *gin.Context ){
         c.File("./fronted/index.html");
     });
