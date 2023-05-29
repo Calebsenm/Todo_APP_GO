@@ -1,25 +1,20 @@
-alert("XD");
 
 function buttonClick(event ) {
   event.preventDefault();
 
-  var id =  parseInt(document.querySelector('#Id').value);
-  var nombre = document.querySelector('#Nombre').value;
-  var edad =  parseInt(document.querySelector('#edad').value);
-  var gmail = document.querySelector('#gmail').value;
+  var Title = document.querySelector('#Title').value;
+  var Text =  parseInt(document.querySelector('#Text').value);
+  var DataN = document.querySelector('#Date1').value;
   
-  if (id != "" && nombre != "" && edad != "" && gmail != "") {
+  if ( Title != "" && Text != "" &&  DataN != null ) {
     
-
-    fetch('http://localhost:3080/api/datos/new', {
+    fetch('http://localhost:8000/task', {
       method: "POST",
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-      
-          Id: id,
-          Name: nombre,
-          Age:edad,
-          Gmail: gmail,
+          Title: Title,
+          Text:   Text,
+          Date:  DataN,
       })
     })
 
