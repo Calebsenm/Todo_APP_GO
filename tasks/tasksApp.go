@@ -8,14 +8,14 @@ import (
 	"todoApp/db"
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
-    "time"
+    //"time"
 )
 
 type Task struct {
 	Id    int       `json:"Id"`
 	Title string    `json:"Title"`
 	Text  string    `json:"Text"`
-	Date  time.Time `json:"Date"`
+	Date  string    `json:"Date"`
 }
 
 func GetTasks(c *gin.Context) {
@@ -84,9 +84,8 @@ func GetTask(c *gin.Context) {
 
 }
 
-// Correct 
-// function make the post data
 
+// function make the post data
 func PostTask(c *gin.Context) {
 	var task Task
     err := c.ShouldBindJSON(&task);
