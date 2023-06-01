@@ -5,6 +5,7 @@ function buttonClick(event ) {
   var Title = document.querySelector('#Title').value;
   var Text =  parseInt(document.querySelector('#Text').value);
   var DataN = document.querySelector('#Date1').value;
+    alert(DataN)
   
   if ( Title != "" && Text != "" &&  DataN != null ) {
     
@@ -14,9 +15,18 @@ function buttonClick(event ) {
       body: JSON.stringify({
           Title: Title,
           Text:   Text,
-          Date:  DataN,
+          Date:  DataN
       })
     })
+
+    .then((response) => response.json())
+    .then((data) => {
+        console.log('Respuesta del servidor:', data);
+    })
+    .catch((error) => {
+        console.error('Error al realizar la petición:', error);
+    });
+
 
     Correcto();
 

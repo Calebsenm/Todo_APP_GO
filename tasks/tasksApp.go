@@ -103,8 +103,8 @@ func PostTask(c *gin.Context) {
 		log.Println(err)
 	}
 
-	insertQuery := "INSERT INTO tasks(tittle,text , date) VALUES($1, $2, $3)"
-	_, err = dab.Exec(insertQuery,task.Title, task.Text, task.Date)
+	insertQuery := "INSERT INTO tasks(id ,tittle,text , date) VALUES($1, $2, $3 , $4)"
+	_, err = dab.Exec(insertQuery,task.Id,task.Title, task.Text, task.Date)
 
 
 	if err != nil {
@@ -112,7 +112,6 @@ func PostTask(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, task);
-
 }
 
 // To Do do the update to the database
@@ -125,8 +124,6 @@ func UpdateTask(c *gin.Context) {
         fmt.Println("Error 1", err);
     }
     
-    fmt.Println(task1);
-
     // the database conexion
     data , err := db.Connet();
     defer data.Close();
@@ -141,7 +138,6 @@ func UpdateTask(c *gin.Context) {
     }
     
     prepareStatement.Exec(task1.Title, task1.Text, task1.Date, task1.Id); 
-   
     c.JSON(http.StatusOK, task1)
 }
 
