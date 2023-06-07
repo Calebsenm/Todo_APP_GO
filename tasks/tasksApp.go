@@ -2,20 +2,20 @@ package tasks
 
 import (
 	"fmt"
+	"github.com/gin-gonic/gin"
+	_ "github.com/lib/pq"
 	"log"
 	"net/http"
 	"strconv"
 	"todoApp/db"
-	"github.com/gin-gonic/gin"
-	_ "github.com/lib/pq"
-    //"time"
+	//"time"
 )
 
 type Task struct {
-	Id    int       `json:"Id"`
-	Title string    `json:"Title"`
-	Text  string    `json:"Text"`
-	Date  string    `json:"Date"`
+	Id    int    `json:"Id"`
+	Title string `json:"Title"`
+	Text  string `json:"Text"`
+	Date  string `json:"Date"`
 }
 
 func GetTasks(c *gin.Context) {
@@ -84,16 +84,15 @@ func GetTask(c *gin.Context) {
 
 }
 
-
 // function make the post data
 func PostTask(c *gin.Context) {
 	var task Task
-    err := c.ShouldBindJSON(&task);
+	err := c.ShouldBindJSON(&task)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error1": err.Error()})
-		fmt.Println(task);
-        return
+		fmt.Println(task)
+		return
 	}
 
 	dab, err := db.Connet()
@@ -102,66 +101,60 @@ func PostTask(c *gin.Context) {
 		log.Println(err)
 	}
 
-	insertQuery := "INSERT INTO tasks(id ,tittle,text , date) VALUES($1, $2, $3 , $4)"
-	_, err = dab.Exec(insertQuery,task.Id,task.Title, task.Text, task.Date)
-
+	insertQuery := "INSERT INTO tasks(tittle,text , date) VALUES($1, $2, $3)"
+	_, err = dab.Exec(insertQuery, task.Title, task.Text, task.Date)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, task);
+	c.JSON(http.StatusOK, task)
 }
 
 // To Do do the update to the database
 func UpdateTask(c *gin.Context) {
-    var task1 Task;
+	var task1 Task
 
-    err := c.ShouldBindJSON(&task1);
+	err := c.ShouldBindJSON(&task1)
 
-    if err != nil{
-        fmt.Println("Error 1", err);
-    }
-    
-    // the database conexion
-    data , err := db.Connet();
-    defer data.Close();
+	if err != nil {
+		fmt.Println("Error 1", err)
+	}
 
-    if err != nil {
-        fmt.Println("Error2",err)
-    }
-    
-    prepareStatement , err := data.Prepare("UPDATE tasks SET tittle = $1, text = $2, date = $3 WHERE id=$4");
-    if err != nil{
-        fmt.Println("Error3", err )
-    }
-    
-    prepareStatement.Exec(task1.Title, task1.Text, task1.Date, task1.Id); 
-    c.JSON(http.StatusOK, task1)
+	// the database conexion
+	data, err := db.Connet()
+	defer data.Close()
+
+	if err != nil {
+		fmt.Println("Error2", err)
+	}
+
+	prepareStatement, err := data.Prepare("UPDATE tasks SET tittle = $1, text = $2, date = $3 WHERE id=$4")
+	if err != nil {
+		fmt.Println("Error3", err)
+	}
+
+	prepareStatement.Exec(task1.Title, task1.Text, task1.Date, task1.Id)
+	c.JSON(http.StatusOK, task1)
 }
-
 
 func DeleteTask(c *gin.Context) {
 
-    idText := c.Param("id");
-    id , _ := strconv.Atoi(idText[1:]);
-    
-    data , err := db.Connet();
-    if err != nil {
-        fmt.Println("Error1",err);
-    }
-    defer data.Close();
-    
-    theData, err  :=  data.Exec("DELETE FROM tasks WHERE id=$1",id);
-    if err != nil {
-        fmt.Println("Error2",err);
-    }
+	idText := c.Param("id")
+	id, _ := strconv.Atoi(idText[1:])
 
-    fmt.Println(theData,"-", id);
-    c.JSON(http.StatusOK, gin.H{"message": "Task deleted"})
-    
+	data, err := db.Connet()
+	if err != nil {
+		fmt.Println("Error1", err)
+	}
+	defer data.Close()
+
+	theData, err := data.Exec("DELETE FROM tasks WHERE id=$1", id)
+	if err != nil {
+		fmt.Println("Error2", err)
+	}
+
+	fmt.Println(theData, "-", id)
+	c.JSON(http.StatusOK, gin.H{"message": "Task deleted"})
+
 }
-
-
-
-
